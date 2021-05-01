@@ -1,0 +1,16 @@
+{
+    "name": "Cyriaca.ID_UPPER_HERE.Editor",
+    "rootNamespace": "Cyriaca.ID_UPPER_HERE.Editor",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

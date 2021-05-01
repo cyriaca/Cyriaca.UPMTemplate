@@ -1,0 +1,14 @@
+{
+    "name": "Cyriaca.ID_UPPER_HERE",
+    "rootNamespace": "Cyriaca.ID_UPPER_HERE",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
