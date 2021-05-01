@@ -18,8 +18,8 @@ echo
 echo "Package ID: $UPM_ID"
 echo "Package name: $UPM_NAME"
 echo "Package description: $UPM_DESC"
-echo "Press enter to apply."
 echo
+echo "Press enter to apply."
 read -n 1 -s
 UPM_DATE=$(date +'%Y\-%m\-%d')
 cat setup.txt | perl -pe 's/\n/\0/;' | xargs -0 sed -i ''\
@@ -33,3 +33,58 @@ mv Editor/Cyriaca.ID_UPPER_HERE.Editor.asmdef Editor/Cyriaca.$UPM_ID_UPPER.Edito
 mv Runtime/Cyriaca.ID_UPPER_HERE.asmdef Runtime/Cyriaca.$UPM_ID_UPPER.asmdef
 mv Tests/Editor/Cyriaca.ID_UPPER_HERE.Editor.Tests.asmdef Tests/Editor/Cyriaca.$UPM_ID_UPPER.Editor.Tests.asmdef
 mv Tests/Runtime/Cyriaca.ID_UPPER_HERE.Tests.asmdef Tests/Runtime/Cyriaca.$UPM_ID_UPPER.Tests.asmdef
+
+gen_file () {
+    local guid=$(xxd -l 16 -p /dev/random)
+    local name=${1##*/}
+    local ext=${1##*.}
+    echo \
+"fileFormatVersion: 2
+guid: $guid"
+if [[ -d $1 ]]
+then
+    echo \
+"folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: "
+elif [[ $name == "package.json" ]]
+then
+    echo \
+"PackageManifestImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: "
+elif [[ $ext == "md" || $ext == "txt" ]]
+then
+    echo \
+"TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: "
+elif [[ $ext == "asmdef" ]]
+then
+    echo \
+"AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: "
+else
+    echo \
+"DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: "
+fi
+}
+
+while read f; do gen_file $f > $"$f.meta"; done < setup.meta.txt
+
+echo
+echo "Done, delete setup files now"
