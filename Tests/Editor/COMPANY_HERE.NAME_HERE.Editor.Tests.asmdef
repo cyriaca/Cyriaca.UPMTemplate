@@ -1,6 +1,6 @@
 {
-    "name": "Cyriaca.ID_UPPER_HERE.Editor.Tests",
-    "rootNamespace": "Cyriaca.ID_UPPER_HERE.Editor.Tests",
+    "name": "COMPANY_HERE.NAME_HERE.Editor.Tests",
+    "rootNamespace": "COMPANY_HERE.NAME_HERE.Editor.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

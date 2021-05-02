@@ -1,6 +1,6 @@
 {
-    "name": "Cyriaca.ID_UPPER_HERE.Tests",
-    "rootNamespace": "Cyriaca.ID_UPPER_HERE.Tests",
+    "name": "COMPANY_HERE.NAME_HERE.Tests",
+    "rootNamespace": "COMPANY_HERE.NAME_HERE.Tests",
     "references": [
         "UnityEngine.TestRunner"
     ],

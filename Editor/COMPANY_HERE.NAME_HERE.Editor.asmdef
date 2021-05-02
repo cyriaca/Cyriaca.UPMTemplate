@@ -1,6 +1,6 @@
 {
-    "name": "Cyriaca.ID_UPPER_HERE.Editor",
-    "rootNamespace": "Cyriaca.ID_UPPER_HERE.Editor",
+    "name": "COMPANY_HERE.NAME_HERE.Editor",
+    "rootNamespace": "COMPANY_HERE.NAME_HERE.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"
