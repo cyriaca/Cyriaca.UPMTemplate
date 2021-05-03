@@ -1,45 +1,19 @@
-var company = Get("Company", "Cyriaca");
-var companyLong = Get("Company (long)", "Cyriaca Software");
-var name = Get("Name");
-var displayName = Get("Display name");
-var desc = Get("Description");
+#!/usr/bin/env dotnet-script
+#r "nuget: Ask, 1.0.0-beta.1"
 
-var companyLower = company.ToLowerInvariant();
-var nameLower = name.ToLowerInvariant();
-var date = DateTime.UtcNow.ToString("yyyy-M-d");
-var year = DateTime.UtcNow.ToString("yyyy");
+Ask.Rep("Company", "COMPANY_HERE", "Cyriaca", extra: v => ("COMPANY_LOWER_HERE", v.ToLowerInvariant()));
+Ask.Rep("Company (long)", "COMPANY_LONG_HERE", "Cyriaca Software");
+Ask.Rep("Name", "NAME_HERE", extra: v => ("NAME_LOWER_HERE", v.ToLowerInvariant()));
+Ask.Rep("Display name", "NAME_DISPLAY_HERE");
+Ask.Rep("Description", "DESC_HERE");
+Wait.Enter("Press enter to apply");
+Set.Rep("DATE_HERE", DateTime.UtcNow.ToString("yyyy-M-d"));
+Set.Rep("YEAR_HERE", DateTime.UtcNow.ToString("yyyy"));
+Set.Rep("_TEMPLATE_", "");
+File.Delete("omnisharp.json");
+File.Delete("README.md");
 
-WriteLine($@"
-Company: {company}
-Company (long): {companyLong}
-Name: {name}
-Display name: {displayName}
-Description: {desc}
-Today's date: {date}
-
-Press enter to apply.");
-
-ReadLine();
-
-string Replace(string str) => str
-    .Replace("COMPANY_HERE", company)
-    .Replace("COMPANY_LONG_HERE", companyLong)
-    .Replace("NAME_HERE", name)
-    .Replace("NAME_DISPLAY_HERE", displayName)
-    .Replace("DESC_HERE", desc)
-    .Replace("COMPANY_LOWER_HERE", companyLower)
-    .Replace("NAME_LOWER_HERE", nameLower)
-    .Replace("DATE_HERE", date)
-    .Replace("YEAR_HERE", year);
-
-string Get(string prompt, string def = null)
-{
-    Write(def != null ? $@"{prompt} [""{def}""]: " : $"{prompt}: ");
-    var res = ReadLine();
-    return !string.IsNullOrWhiteSpace(res) || def == null ? res : def;
-}
-
-foreach (var path in @"
+foreach (var path in Get.SplitNonEmptyLines(@"
 Documentation~/NAME_HERE.md
 Editor/COMPANY_HERE.NAME_HERE.Editor.asmdef
 Runtime/COMPANY_HERE.NAME_HERE.asmdef
@@ -48,16 +22,10 @@ Tests/Runtime/COMPANY_HERE.NAME_HERE.Tests.asmdef
 CHANGELOG.md
 LICENSE
 package.json
-README.md
-".Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
-{
-    var alt = Replace(path);
-    File.WriteAllText(alt, Replace(File.ReadAllText(path)));
-    if (alt != path) File.Delete(path);
-}
+README_TEMPLATE_.md
+")) Do.FileRep(path, Do.Rep(path));
 
-
-foreach (var path in $@"
+foreach (var path in Get.SplitNonEmptyLines($@"
 Editor
 Editor/COMPANY_HERE.NAME_HERE.Editor.asmdef
 Runtime
@@ -70,45 +38,29 @@ Tests/Runtime/COMPANY_HERE.NAME_HERE.Tests.asmdef
 CHANGELOG.md
 LICENSE
 package.json
-README.md
-".Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+README_TEMPLATE_.md
+"))
 {
-    using var writer = File.CreateText($"{Replace(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)}.meta");
-    var name = Path.GetFileName(path);
-    var ext = Path.GetExtension(path);
-    writer.WriteLine($@"
-fileFormatVersion: 2
-guid: {Guid.NewGuid().ToString("N")}".TrimStart());
-    if (Directory.Exists(path))
-        writer.WriteLine(@"
-folderAsset: yes
-DefaultImporter:
+    string rPath = Do.Rep(path);
+    using var writer = File.CreateText($"{rPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)}.meta");
+    writer.WriteLine("fileFormatVersion: 2");
+    writer.WriteLine($"guid: {Guid.NewGuid().ToString("N")}");
+    bool dir = Directory.Exists(rPath);
+    if (dir) writer.WriteLine(@"folderAsset: yes");
+    writer.Write(Path.GetExtension(rPath) switch
+    {
+        _ when dir => "DefaultImporter:",
+        _ when Path.GetFileName(rPath) == "package.json" => "PackageManifestImporter:",
+        ".md" => "TextScriptImporter:",
+        ".txt" => "TextScriptImporter:",
+        ".asmdef" => "AssemblyDefinitionImporter:",
+        _ => "DefaultImporter:"
+    });
+    writer.WriteLine(@"
   externalObjects: {}
   userData: 
   assetBundleName: 
-  assetBundleVariant: ".TrimStart());
-    else if (name == "package.json")
-        writer.WriteLine(@"
-PackageManifestImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: ".TrimStart());
-    else if (ext == "md" || ext == "txt")
-        writer.WriteLine(@"
-TextScriptImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: ".TrimStart());
-    else if (ext == "asmdef")
-        writer.WriteLine(@"
-".TrimStart());
-    else
-        writer.WriteLine(@"
-DefaultImporter:
-  externalObjects: {}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: ".TrimStart());
+  assetBundleVariant: ");
 }
+
+WriteLine("Complete. Delete setup.csx now.");
