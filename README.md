@@ -4,7 +4,7 @@ This is a template for a basic Unity UPM package. It requires [dotnet-script](ht
 
 1. Copy the contents of this folder (minus `.git/`) to an empty folder.
 2. Run `dotnet script setup.csx` and fill out the necessary properties
-    - Company: Comany short name (for assembly naming, e.g. "Cyriaca")
+    - Company: Comany short name (for assembly / package naming, e.g. "Cyriaca")
     - Company (long): Company long name (for license, e.g. "Cyriaca Software")
     - Name: Package short name (for assembly / package naming, e.g. "MoonSharp")
     - Display name: Package long name (for display in UPM window, e.g. "MoonSharp Integration")
