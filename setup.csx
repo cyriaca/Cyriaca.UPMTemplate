@@ -1,6 +1,7 @@
 #!/usr/bin/env dotnet-script
-#r "nuget: Ask, 1.0.0-beta.1"
+#r "nuget: Ask, 1.2.0"
 
+Ask.Rep("Package prefix", "PACKAGE_PREFIX", "com");
 Ask.Rep("Company", "COMPANY_HERE", "Cyriaca", extra: v => ("COMPANY_LOWER_HERE", v.ToLowerInvariant()));
 Ask.Rep("Company (long)", "COMPANY_LONG_HERE", "Cyriaca Software");
 Ask.Rep("Name", "NAME_HERE", extra: v => ("NAME_LOWER_HERE", v.ToLowerInvariant()));
