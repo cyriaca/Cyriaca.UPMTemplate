@@ -5,7 +5,6 @@ $UPMReplacementTargets = @(
 "Tests/Editor/COMPANY_HERE.NAME_HERE.Editor.Tests.asmdef",
 "Tests/Runtime/COMPANY_HERE.NAME_HERE.Tests.asmdef",
 "CHANGELOG.md",
-"LICENSE",
 "package.json",
 "README_TEMPLATE_.md"
 )
@@ -20,7 +19,6 @@ $UPMMetaTargets = @(
 "Tests/Runtime",
 "Tests/Runtime/COMPANY_HERE.NAME_HERE.Tests.asmdef",
 "CHANGELOG.md",
-"LICENSE",
 "package.json",
 "README_TEMPLATE_.md"
 )
