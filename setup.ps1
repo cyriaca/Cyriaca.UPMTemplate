@@ -73,7 +73,6 @@ function Write-UpmTemplatePackageData {
             $JsonReplacements[$replacementKey] = $replacementItem
         }
         if (Test-Path "$PSScriptRoot/README.md") { Remove-Item "$PSScriptRoot/README.md" -Confirm:$false }
-        if (Test-Path "$PSScriptRoot/omnisharp.json") { Remove-Item "$PSScriptRoot/omnisharp.json" -Confirm:$false }
         ForEach ($replacementFile in $UPMReplacementTargets)
         {
             $replacementFile = "$PSScriptRoot/$replacementFile"
